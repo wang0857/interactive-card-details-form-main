@@ -1,6 +1,6 @@
 <template>
     <div class="card-info">
-        <div :class="errors.name !== '' || errors.blank !=='' ? 'input-field-error' : ''">
+        <div :class="errors.name !== '' ?'input-field-error' : ''">
             <Input
                 title="CARDHOLDER NAME"
                 placeholder="e.g. Jane Appleseed"
@@ -12,12 +12,12 @@
             >
                 {{ errors.name }}
             </p>
-            <p
-                v-if="errors.name === '' && errors.blank !== ''"
+            <!-- <p
+                v-else-if="errors.blank !== ''"
                 class="card-info-error"
             >
                 {{ errors.blank }}
-            </p>
+            </p> -->
         </div>
         <div :class="errors.number !== '' || errors.blank !=='' ? 'input-field-error' : ''">
             <Input
@@ -31,21 +31,21 @@
             >
                 {{ errors.number }}
             </p>
-            <p
-                v-if="errors.number === '' && errors.blank !== ''"
+            <!-- <p
+                v-else-if="errors.blank !== ''"
                 class="card-info-error"
             >
                 {{ errors.blank }}
-            </p>
+            </p> -->
         </div>
         <div class="card-info-date">
-            <div :class="errors.blank !=='' ? 'input-field-error' : ''">
+            <div>
                 <ExpDateInput
                     @expMM="expMMValidate"
                     @expYY="expYYValidate"
                     :class="
-                        (monthErrorExist ? 'input-field-error-month' : '') ||
-                        (yearErrorExist ? 'input-field-error-year' : '')
+                        (monthErrorExist || errors.expMonth !== '' ? 'input-field-error-month' : '') ||
+                        (yearErrorExist ||  errors.expYear !== '' ? 'input-field-error-year' : '')
                     "
                 />
                 <p
@@ -55,13 +55,19 @@
                     {{ errors.exp }}
                 </p>
                 <p
-                    v-if="errors.exp === '' && errors.blank !== ''"
+                    v-else-if="errors.expMonth !== ''"
                     class="card-info-error"
                 >
-                    {{ errors.blank }}
+                    {{ errors.expMonth }}
+                </p>
+                <p
+                    v-else-if="errors.expYear !== ''"
+                    class="card-info-error"
+                >
+                    {{ errors.expYear }}
                 </p>
             </div>
-          <div :class="errors.cvc !== '' || errors.blank !=='' ? 'input-field-error' : ''">
+          <div :class="errors.cvc !== '' ? 'input-field-error' : ''">
               <Input
                 title="CVC"
                 placeholder="e.g. 123"
@@ -72,12 +78,6 @@
                     class="card-info-error"
                 >
                     {{ errors.cvc }}
-                </p>
-                <p
-                    v-if="errors.cvc === '' && errors.blank !== ''"
-                    class="card-info-error"
-                >
-                    {{ errors.blank }}
                 </p>
           </div>
         </div>
@@ -112,6 +112,8 @@
                 errors: {
                     name: '',
                     number: '',
+                    expMonth: '',
+                    expYear: '',
                     exp: '',
                     cvc: '',
                     blank: ''
@@ -188,6 +190,7 @@
                     this.monthErrorExist = true
                 } else {
                     this.errors.exp = ''
+                    this.errors.expMonth = ''
                     this.monthErrorExist = false
                 }
 
@@ -206,6 +209,7 @@
                     this.yearErrorExist = true
                 } else {
                     this.errors.exp = ''
+                    this.errors.expYear = ''
                     this.yearErrorExist = false
                 }
 
@@ -215,11 +219,8 @@
             infoValidate() {
                 for (let props in this.cardInfo) {
                     if (this.cardInfo[props] === '') {
-                        this.errors.blank = "Can't be blank"
-                        this.errorExist = true    
-                    } else {
-                        this.errors.blank = ''
-                        this.errorExist = false 
+                        this.errors[props] = "Can't be blank"
+                        this.errorExist = true  
                     }
                 }
 
