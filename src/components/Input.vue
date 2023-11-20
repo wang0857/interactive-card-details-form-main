@@ -34,7 +34,7 @@
     .input {
         &-title {
             letter-spacing: 1px;
-            font-size: .9rem;
+            font-size: .8rem;
         }
 
         &-field {

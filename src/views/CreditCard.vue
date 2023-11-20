@@ -12,12 +12,6 @@
             >
                 {{ errors.name }}
             </p>
-            <!-- <p
-                v-else-if="errors.blank !== ''"
-                class="card-info-error"
-            >
-                {{ errors.blank }}
-            </p> -->
         </div>
         <div :class="errors.number !== '' || errors.blank !=='' ? 'input-field-error' : ''">
             <Input
@@ -31,12 +25,6 @@
             >
                 {{ errors.number }}
             </p>
-            <!-- <p
-                v-else-if="errors.blank !== ''"
-                class="card-info-error"
-            >
-                {{ errors.blank }}
-            </p> -->
         </div>
         <div class="card-info-date">
             <div>
