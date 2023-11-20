@@ -1,0 +1,23 @@
+/* Overall Setting */
+@import './_variables.scss';
+
+/* Font */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500&display=swap');
+
+body {
+    min-width: 100vw;
+    min-height: 100vh;
+    padding: 0px;
+    margin: 0px;
+
+    & > * {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 18px;
+        color: $deep-violet;
+        box-sizing: border-box;
+    }
+}
+
+h1, h2, h3, h4, h5, h6, p {
+    margin: 0px;
+}
